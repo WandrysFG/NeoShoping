@@ -14,40 +14,34 @@ namespace NeoShoping.Logic
         {
             try
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╚═════════════════════ Agregar Producto ═════════════════════╝\n");
                 Console.ResetColor();
 
-                string nombre = ProductoHelper.LeerNombreProducto();
-                string descripcion = ProductoHelper.LeerDescripcionProducto();
-                decimal precio = ProductoHelper.LeerPrecioProducto();
-                int stock = ProductoHelper.LeerStockProducto();
-                int idProveedor = ProductoHelper.LeerIdProveedor();
+                Producto nuevoProducto = ProductoInfoHelper.ObtenerDatosProducto();
 
+                GuardarProductoEnBaseDeDatos(nuevoProducto);
 
-                Producto nuevoProducto = new Producto(nombre, precio, stock, descripcion)
-                {
-                    IdProveedor = idProveedor
-                };
-
-                using (var context = new NeoShopingDataContext())
-                {
-                    context.Productos.Add(nuevoProducto);
-                    context.SaveChanges();
-                }
-
-                Console.WriteLine("\nProducto agregado correctamente.\n");
-                FrmProductos.MenuDeSalida();
+                MensajesConsola.MostrarMensajeDeExito();
             }
             catch (DbUpdateException ex)
             {
-                Console.WriteLine($"\nError al guardar en la base de datos: {ex.InnerException?.Message ?? ex.Message}");
+                Console.WriteLine($"Error al guardar en la base de datos: {ex}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError inesperado: {ex.Message}");
+                Console.WriteLine($"Error inesperado: {ex}");
             }
-            ProductoHelper.Pausa();
+            FrmProductos.Pausa();
+        }
+
+        private static void GuardarProductoEnBaseDeDatos(Producto nuevoProducto)
+        {
+            using (var context = new NeoShopingDataContext())
+            {
+                context.Productos.Add(nuevoProducto);
+                context.SaveChanges();
+            }
         }
 
         public static void VerOBuscarProductos()
@@ -69,7 +63,8 @@ namespace NeoShoping.Logic
                         int option;
                         while (!int.TryParse(Console.ReadLine(), out option))
                         {
-                            Console.Write("Opción no válida, intente nuevamente: ");
+                            Console.Write("Entrada inválida. Debes ingresar un número.\n");
+                            Console.Write("Seleccione una opción: ");
                         }
 
                         switch (option)
@@ -92,7 +87,7 @@ namespace NeoShoping.Logic
 
                             default:
                                 Console.WriteLine("Opción no válida. Intente nuevamente.");
-                                ProductoHelper.Pausa();
+                                FrmProductos.Pausa();
                                 break;
                         }
 
@@ -101,7 +96,7 @@ namespace NeoShoping.Logic
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error inesperado al obtener productos: {ex.Message}");
-                    ProductoHelper.Pausa();
+                    FrmProductos.Pausa();
                 }
             }
         }
@@ -111,48 +106,21 @@ namespace NeoShoping.Logic
             try
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╚═════════════════════ Editar Producto ═════════════════════╝\n");
                 Console.ResetColor();
 
-                int id = ProductoHelper.LeerEntero("Ingrese el ID del producto que desea editar: ");
+                int id = ProductoInputHelper.LeerEntero("Ingrese el ID del producto que desea editar: ");
 
                 using (var context = new NeoShopingDataContext())
                 {
-                    var producto = context.Productos.FirstOrDefault(p => p.IdProducto == id);
+                    var producto = ObtenerProductoPorId(context, id);
+                    if (producto == null) return;
 
-                    if (producto == null)
-                    {
-                        Console.WriteLine("Producto no encontrado. Verifique que el ID sea correcto.");
-                        ProductoHelper.Pausa();
-                        FrmProductos.MenuDeSalida();
-                    }
-
-                    Console.WriteLine("\nDatos actuales del producto:\n");
-                    Console.WriteLine($"Nombre: {producto.Nombre} ║ Descripción: {producto.Descripcion} ║ Precio: {producto.Precio} ║ Stock: {producto.Stock} ║ ID Proveedor: {producto.IdProveedor}\n");
-
-                    Console.WriteLine("Ingrese los nuevos datos (deje vacío para mantener el valor actual):\n");
-
-                    string nuevoNombre = ProductoHelper.LeerTextoOpcional("Nuevo nombre: ", producto.Nombre);
-                    string nuevaDescripcion = ProductoHelper.LeerTextoOpcional("Nueva descripción: ", producto.Descripcion);
-                    decimal nuevoPrecio = ProductoHelper.LeerDecimalOpcional("Nuevo precio: ", producto.Precio);
-                    int nuevoStock = ProductoHelper.LeerEnteroOpcional("Nuevo stock: ", producto.Stock);
-                    int nuevoIdProveedor = ProductoHelper.LeerEnteroOpcional("Nuevo ID Proveedor: ", producto.IdProveedor);
-
-                    producto.Nombre = nuevoNombre;
-                    producto.Descripcion = nuevaDescripcion;
-                    producto.Precio = nuevoPrecio;
-                    producto.Stock = nuevoStock;
-                    producto.IdProveedor = nuevoIdProveedor;
-
-                    context.SaveChanges();
-
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nProducto actualizado correctamente.");
-                    Console.ResetColor();
-
-                    Console.WriteLine("\nDatos actualizados del producto:\n");
-                    Console.WriteLine($"Nombre: {producto.Nombre} ║ Descripción: {producto.Descripcion} ║ Precio: {producto.Precio} ║ Stock: {producto.Stock} ║ ID Proveedor: {producto.IdProveedor}\n");
+                    MostrarDatosProducto(producto);
+                    ProductoInputHelper.LeerYActualizarDatosProducto(producto);
+                    GuardarCambios(context);
+                    MostrarDatosProductoActualizado(producto);
 
                     FrmProductos.MenuDeSalida();
                 }
@@ -160,8 +128,58 @@ namespace NeoShoping.Logic
             catch (Exception ex)
             {
                 Console.WriteLine($"\nError al actualizar el producto: {ex.Message}");
-                ProductoHelper.Pausa();
+                FrmProductos.Pausa();
             }
+        }
+
+        private static Producto ObtenerProductoPorId(NeoShopingDataContext context, int id)
+        {
+            var producto = context.Productos.FirstOrDefault(p => p.IdProducto == id);
+
+            if (producto == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Producto no encontrado. Verifique que el ID sea correcto.");
+                Console.ResetColor();
+                FrmProductos.Pausa();
+                FrmProductos.MenuDeSalida();
+            }
+
+            return producto;
+        }
+
+        private static void MostrarDatosProducto(Producto producto)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n║ Datos actuales del producto:");
+            Console.WriteLine("║");
+            Console.WriteLine($"║ Nombre: {producto.Nombre}");
+            Console.WriteLine($"║ Descripción: {producto.Descripcion}");
+            Console.WriteLine($"║ Precio: {producto.Precio}");
+            Console.WriteLine($"║ Stock: {producto.Stock}");
+            Console.WriteLine($"║ ID Proveedor: {producto.IdProveedor}\n");
+            Console.ResetColor();
+        }
+
+        private static void GuardarCambios(NeoShopingDataContext context)
+        {
+            context.SaveChanges();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nProducto actualizado correctamente.");
+            Console.ResetColor();
+        }
+
+        private static void MostrarDatosProductoActualizado(Producto producto)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n║ Datos actualizados del producto:");
+            Console.WriteLine("║");
+            Console.WriteLine($"║ Nombre: {producto.Nombre}");
+            Console.WriteLine($"║ Descripción: {producto.Descripcion}");
+            Console.WriteLine($"║ Precio: {producto.Precio}");
+            Console.WriteLine($"║ Stock: {producto.Stock}");
+            Console.WriteLine($"║ ID Proveedor: {producto.IdProveedor}\n");
+            Console.ResetColor();
         }
 
         public static void EliminarProducto()
@@ -169,41 +187,26 @@ namespace NeoShoping.Logic
             try
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╚═════════════════════ Eliminar Producto ═════════════════════╝\n");
                 Console.ResetColor();
 
-                int idProducto = ProductoHelper.LeerEntero("Ingrese el ID del producto a eliminar: ");
+                int idProducto = ProductoInputHelper.LeerEntero("Ingrese el ID del producto a eliminar: ");
 
                 using (var context = new NeoShopingDataContext())
                 {
-                    var producto = context.Productos.FirstOrDefault(p => p.IdProducto == idProducto);
+                    var producto = ObtenerProductoPorId(context, idProducto);
+                    if (producto == null) return;
 
-                    if (producto != null)
+                    MostrarDatosProductoAEliminar(producto);
+                    if (ConfirmarEliminacion())
                     {
-                        Console.WriteLine("\nDatos del producto a eliminar:\n");
-                        Console.WriteLine($"ID: {producto.IdProducto} ║ Nombre: {producto.Nombre} ║ Descripción: {producto.Descripcion} ║ Precio: {producto.Precio} ║ Stock: {producto.Stock} ║ ID Proveedor: {producto.IdProveedor}\n");
-
-                        Console.Write("\n¿Está seguro que desea eliminar este producto? (s/n): ");
-                        string confirmacion = Console.ReadLine()?.Trim().ToLower();
-
-                        if (confirmacion == "s" || confirmacion == "S")
-                        {
-                            context.Productos.Remove(producto);
-                            context.SaveChanges();
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("\nProducto eliminado correctamente.");
-                            Console.ResetColor();
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nOperación cancelada por el usuario.");
-                        }
+                        EliminarProductoDeBaseDeDatos(context, producto);
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Producto no encontrado.");
+                        Console.WriteLine("\nOperación cancelada por el usuario.");
                         Console.ResetColor();
                     }
                 }
@@ -213,13 +216,47 @@ namespace NeoShoping.Logic
             catch (DbUpdateException ex)
             {
                 Console.WriteLine($"Error al eliminar el producto: {ex.InnerException?.Message ?? ex.Message}");
+                FrmProductos.Pausa();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error inesperado: {ex.Message}");
+                FrmProductos.Pausa();
             }
+        }
 
-            ProductoHelper.Pausa();
+        private static void MostrarDatosProductoAEliminar(Producto producto)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nDatos del producto a eliminar:\n");
+            Console.WriteLine($"ID: {producto.IdProducto} ║ Nombre: {producto.Nombre} ║ Descripción: {producto.Descripcion} ║ Precio: {producto.Precio} ║ Stock: {producto.Stock} ║ ID Proveedor: {producto.IdProveedor}\n");
+            Console.ResetColor();
+        }
+
+        private static bool ConfirmarEliminacion()
+        {
+            while (true)
+            {
+                Console.Write("\n¿Está seguro que desea eliminar este producto? (s/n): ");
+                string confirmacion = Console.ReadLine()?.Trim().ToLower();
+
+                if (confirmacion == "s")
+                    return true;
+                else if (confirmacion == "n")
+                    return false;
+                else
+                    Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
+            }
+        }
+
+
+        private static void EliminarProductoDeBaseDeDatos(NeoShopingDataContext context, Producto producto)
+        {
+            context.Productos.Remove(producto);
+            context.SaveChanges();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nProducto eliminado correctamente.");
+            Console.ResetColor();
         }
 
         private static void MostrarListaProductos(NeoShopingDataContext context)
@@ -227,15 +264,21 @@ namespace NeoShoping.Logic
             Console.Clear();
             var productos = context.Productos.ToList();
 
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╚═════════════════════ Lista de Productos ═════════════════════╝\n");
             Console.ResetColor();
 
             if (productos.Any())
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"{"ID",-5}  {"Nombre",-25} {"Descripción", -30}  {"Precio",-10}  {"Stock",-10}  {"ID Proveedor",-18}");
+                Console.WriteLine(new string('─', 100));
+                Console.ResetColor();
+
                 foreach (var p in productos)
                 {
-                    Console.WriteLine($"ID: {p.IdProducto} ║ Nombre: {p.Nombre} ║ Precio: {p.Precio} ║ Stock: {p.Stock} ║ ID Proveedor: {p.IdProveedor}");
+                    Console.WriteLine($"{p.IdProducto, -5}  {p.Nombre, -25} {p.Descripcion, -30}  {p.Precio, -10}  {p.Stock, -10}  {p.IdProveedor, -18}");
+                    //Console.WriteLine($"ID: {p.IdProducto} ║ Nombre: {p.Nombre} ║ Precio: {p.Precio} ║ Stock: {p.Stock} ║ ID Proveedor: {p.IdProveedor}");
                 }
             }
             else
@@ -243,34 +286,38 @@ namespace NeoShoping.Logic
                 Console.WriteLine("No hay productos registrados.");
             }
 
-            ProductoHelper.Pausa();
+            FrmProductos.Pausa();
         }
 
         private static void BuscarProductoPorId(NeoShopingDataContext context)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╚═════════════════════ Buscar Producto ═════════════════════╝\n");
             Console.ResetColor();
 
-            int id = ProductoHelper.LeerEntero("Ingrese el ID del producto: ");
+            int id = ProductoInputHelper.LeerEntero("Ingrese el ID del producto: ");
             var producto = context.Productos.FirstOrDefault(p => p.IdProducto == id);
-
+            
             if (producto != null)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"\n║ ID: {producto.IdProducto}");
                 Console.WriteLine($"║ Nombre: {producto.Nombre}");
                 Console.WriteLine($"║ Descripción: {producto.Descripcion}");
                 Console.WriteLine($"║ Precio: {producto.Precio}");
                 Console.WriteLine($"║ Stock: {producto.Stock}");
                 Console.WriteLine($"║ ID Proveedor: {producto.IdProveedor}");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nProducto no encontrado. Verifique que el ID sea correcto.");
+                Console.ResetColor();
             }
 
-            ProductoHelper.Pausa();
+            FrmProductos.Pausa();
         }
     }
 }

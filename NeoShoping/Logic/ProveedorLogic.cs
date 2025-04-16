@@ -210,13 +210,13 @@ namespace NeoShoping.Logic
             catch (DbUpdateException ex)
             {
                 Console.WriteLine($"Error al eliminar el proveedor: {ex.InnerException?.Message ?? ex.Message}");
+                ProveedorHelper.Pausa();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error inesperado: {ex.Message}");
+                ProveedorHelper.Pausa();
             }
-
-            ProveedorHelper.Pausa();
         }
 
         private static void MostrarListaProveedores(NeoShopingDataContext context)

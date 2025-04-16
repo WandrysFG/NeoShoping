@@ -17,13 +17,13 @@ namespace NeoShoping.Presentation
             int intentos = 0;
 
             MenuGestionarProductos();
-            Console.Write("Seleccione una opción: ");
 
             while (!back)
             {
-                
                 try
                 {
+                    Console.Write("Seleccione una opción: ");
+
                     string input = Console.ReadLine();
                     int option;
 
@@ -31,7 +31,6 @@ namespace NeoShoping.Presentation
                     {
                         intentos++;
                         Console.WriteLine("Entrada inválida. Debes ingresar un número.\n");
-                        Console.Write("Seleccione una opción: ");
                     }
                     else
                     {
@@ -56,6 +55,7 @@ namespace NeoShoping.Presentation
                             case 5:
                                 back = true;
                                 Console.Clear();
+                                InicioUI.MostrarMenuOpciones();
                                 InicioUI.MostrarMenu();
                                 break;
                             default:
@@ -69,8 +69,6 @@ namespace NeoShoping.Presentation
                             MenuGestionarProductos("simple");
                             intentos = 0;
                         }
-
-                        Console.Write("Seleccione una opción: ");
                     }
                 }
                 catch (FormatException ex)
@@ -87,7 +85,7 @@ namespace NeoShoping.Presentation
 
         public static void MenuGestionarProductos()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔═══════ GESTIONAR PRODUCTOS ═══════╗");
             Console.WriteLine("║                                   ║");
             Console.WriteLine("║ 1- Agregar Producto               ║");
@@ -104,16 +102,17 @@ namespace NeoShoping.Presentation
         {
             if (estilo == "simple")
             {
+
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("║");
-                Console.WriteLine("║ OPCIONES VALIDAS:");
-                Console.WriteLine("║");
-                Console.WriteLine("║ 1- Agregar Producto");
-                Console.WriteLine("║ 2- Ver/Buscar Productos");
-                Console.WriteLine("║ 3- Editar Producto");
-                Console.WriteLine("║ 4- Eliminar Producto");
-                Console.WriteLine("║ 5- Volver al Menu Principal");
-                Console.WriteLine("║\n");
+                Console.WriteLine("\n╔══════════ OPCIONES VALIDAS ══════════╗");
+                Console.WriteLine("║                                      ║");
+                Console.WriteLine("║ 1- Agregar Producto                  ║");
+                Console.WriteLine("║ 2- Ver/Buscar Productos              ║");
+                Console.WriteLine("║ 3- Editar Producto                   ║");
+                Console.WriteLine("║ 4- Eliminar Producto                 ║");
+                Console.WriteLine("║ 5- Volver al Menu Principal          ║");
+                Console.WriteLine("║                                      ║");
+                Console.WriteLine("╚══════════════════════════════════════╝\n");
                 Console.ResetColor();
             }
         }
@@ -121,7 +120,7 @@ namespace NeoShoping.Presentation
         public static void MenuVerOBuscarProductos()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔═══════ VER/BUSCAR PRODUCTOS ═══════╗");
             Console.WriteLine("║                                    ║");
             Console.WriteLine("║ 1- Ver Todos los Productos         ║");
@@ -138,7 +137,7 @@ namespace NeoShoping.Presentation
 
             while (!opcionValida)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╔═══════════════════════════════════╗");
                 Console.WriteLine("║ 1- Volver al menu anterior        ║");
                 Console.WriteLine("║ 2- Salir                          ║");
@@ -167,6 +166,13 @@ namespace NeoShoping.Presentation
                         break;
                 }
             }
+        }
+
+        public static void Pausa()
+        {
+            Console.Write("\nPresione una tecla para continuar...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }
