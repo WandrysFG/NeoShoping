@@ -21,11 +21,11 @@ namespace NeoShoping.Entities
         public virtual Producto Producto { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "La cantidad debe ser mayor que 0.")]
+        [Range(1, int.MaxValue)]
         public int Cantidad { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "El precio unitario no puede ser negativo.")]
+        [Range(0, double.MaxValue)]
         public decimal PrecioUnitario { get; set; }
 
         [NotMapped]
@@ -47,7 +47,7 @@ namespace NeoShoping.Entities
 
         public string MostrarInformacion()
         {
-            return $"ID Detalle: {IdDetalle} ║ ID Orden: {IdOrden} ║ ID Producto: {IdProducto} ║ Cantidad: {Cantidad} ║ Precio Unitario: {PrecioUnitario:C} ║ Subtotal: {Subtotal:C}\n";
+            return $"ID Detalle: {IdDetalle} ║ ID Orden: {IdOrden} ║ ID Producto: {IdProducto} ║ Cantidad: {Cantidad} ║ Precio Unitario: {PrecioUnitario:C} ║ Subtotal: {Subtotal:C}";
         }
     }
 }

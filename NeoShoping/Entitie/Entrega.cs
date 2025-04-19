@@ -41,7 +41,7 @@ namespace NeoShoping.Entities
 
         public string MostrarInformacion()
         {
-            return $"ID Entrega: {IdEntrega} ║ ID Orden: {IdOrden} ║ Fecha: {FechaEntrega:yyyy-MM-dd} ║ Recibido por: {RecibidoPor} ║ Observaciones: {Observaciones}\n";
+            return $"ID Entrega: {IdEntrega} ║ ID Orden: {IdOrden} ║ Fecha: {FechaEntrega:yyyy-MM-dd} ║ Recibido por: {RecibidoPor} ║ Observaciones: {Observaciones}";
         }
     }
 }

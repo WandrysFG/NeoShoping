@@ -62,19 +62,19 @@ namespace NeoShoping.Presentation
                                 break;
                             case 2:
                                 Console.Clear();
-                                FrmProductos.GestionarProductos();
+                                FrmOrdenes.GestionarOrdenes();
                                 break;
                             case 3:
                                 Console.Clear();
-                                FrmProveedores.GestionarProveedores();
+                                FrmEntregas.GestionarEntregas();
                                 break;
                             case 4:
                                 Console.Clear();
-                                FrmOrdenes.GestionarOrdenes();
+                                FrmProductos.GestionarProductos();
                                 break;
                             case 5:
                                 Console.Clear();
-                                FrmEntregas.GestionarEntregas();
+                                FrmProveedores.GestionarProveedores();
                                 break;
                             case 6:
                                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -126,7 +126,7 @@ namespace NeoShoping.Presentation
             if (estilo == "simple")
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\n╔══════════ OPCIONES VALIDAS ══════════╗");
+                Console.WriteLine("╔══════════ OPCIONES VALIDAS ══════════╗");
                 Console.WriteLine("║                                      ║");
                 Console.WriteLine("║ 1- Gestionar Clientes                ║");
                 Console.WriteLine("║ 2- Gestionar Ordenes                 ║");

@@ -23,7 +23,7 @@ namespace NeoShoping.Logic
                 GuardarClienteEnBaseDeDatos(nuevoCliente);
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\nCliente agregado correctamente.\n");
+                Console.WriteLine("\nCliente agregado correctamente.");
                 Console.ResetColor();
             }
             catch (DbUpdateException ex)
@@ -51,6 +51,9 @@ namespace NeoShoping.Logic
         {
             bool back = false;
 
+                        Console.Clear();
+                        FrmClientes.MenuVerOBuscarClientes();
+
             while (!back)
             {
                 try
@@ -59,14 +62,15 @@ namespace NeoShoping.Logic
                     {
                         var clientes = context.Clientes.ToList();
 
-                        Console.Clear();
-                        FrmClientes.MenuVerOBuscarClientes();
                         Console.Write("Seleccione una opción: ");
 
                         int option;
                         while (!int.TryParse(Console.ReadLine(), out option))
                         {
-                            Console.Write("Entrada inválida. Debes ingresar un número.\n");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Entrada inválida. Debes ingresar un número.\n");
+                            Console.ResetColor();
+
                             Console.Write("Seleccione una opción: ");
                         }
 
@@ -89,8 +93,9 @@ namespace NeoShoping.Logic
                                 break;
 
                             default:
-                                Console.WriteLine("Opción no válida. Intente nuevamente.");
-                                InicioUI.Pausa();
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Opción no válida. Intente nuevamente.\n");
+                                Console.ResetColor();
                                 break;
                         }
                     }
@@ -152,7 +157,7 @@ namespace NeoShoping.Logic
             if (cliente == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nCliente no encontrado. Verifique que el ID sea correcto.\n");
+                Console.WriteLine("\nCliente no encontrado. Verifique que el ID sea correcto.");
                 Console.ResetColor();
                 FrmClientes.MenuDeSalida();
             }
@@ -185,6 +190,7 @@ namespace NeoShoping.Logic
                     if (cliente == null) return;
 
                     MostrarDatosClienteAEliminar(cliente);
+
                     if (ConfirmarEliminacion())
                     {
                         EliminarClienteDeBaseDeDatos(context, cliente);
@@ -192,7 +198,7 @@ namespace NeoShoping.Logic
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\nOperación cancelada por el usuario.\n");
+                        Console.WriteLine("\nOperación cancelada por el usuario.");
                         Console.ResetColor();
                     }
                 }
@@ -231,7 +237,9 @@ namespace NeoShoping.Logic
                 else if (confirmacion == "n")
                     return false;
                 else
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
+                    Console.ResetColor();
             }
         }
 
@@ -240,7 +248,7 @@ namespace NeoShoping.Logic
             context.Clientes.Remove(cliente);
             context.SaveChanges();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nCliente eliminado correctamente.\n");
+            Console.WriteLine("\nCliente eliminado correctamente.");
             Console.ResetColor();
         }
 
@@ -255,12 +263,12 @@ namespace NeoShoping.Logic
 
             if (clientes.Any())
             {
-                Console.WriteLine($"{"ID",-5}  {"Nombre",-25} {"Telefono",-15}  {"Email",-30}  {"Direccion",-30}");
+                Console.WriteLine($"{"ID",-5}  {"Nombre",-25} {"Telefono",-20}  {"Email",-30}  {"Direccion",-30}");
                 Console.WriteLine(new string('─', 105));
 
                 foreach (var c in clientes)
                 {
-                    Console.WriteLine($"{c.IdCliente,-5}  {c.Nombre,-25} {c.Telefono,-15} {c.Email,-30} {c.Direccion,-30}");
+                    Console.WriteLine($"{c.IdCliente,-5}  {c.Nombre,-25} {c.Telefono,-20} {c.Email,-30} {c.Direccion,-30}");
                 }
 
                 Console.WriteLine("");
@@ -283,15 +291,15 @@ namespace NeoShoping.Logic
 
             if (cliente != null)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nCliente encontrado:\n");
-                Console.WriteLine(cliente.MostrarInformacion());
                 Console.ResetColor();
+                Console.WriteLine(cliente.MostrarInformacion());
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nCliente no encontrado. Verifique que el ID sea correcto.\n");
+                Console.WriteLine("\nCliente no encontrado. Verifique que el ID sea correcto.");
                 Console.ResetColor();
             }
         }

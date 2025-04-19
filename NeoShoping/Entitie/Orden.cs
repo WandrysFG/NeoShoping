@@ -53,7 +53,7 @@ namespace NeoShoping.Entities
 
         public override string MostrarInformacion()
         {
-            return $"ID: {IdOrden} ║ Fecha: {FechaOrden:dd/MM/yyyy} ║ Total: {Total:C} ║ Estado: {Estado} ║ Proveedor: {IdProveedor} ║ Cliente: {IdCliente}\n";
+            return $"ID: {IdOrden} ║ Fecha: {FechaOrden:dd/MM/yyyy} ║ Total: {Total:C} ║ Estado: {Estado} ║ Proveedor: {IdProveedor} ║ Cliente: {IdCliente}";
         }
     }
 }

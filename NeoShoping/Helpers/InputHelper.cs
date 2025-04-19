@@ -6,30 +6,14 @@ namespace NeoShoping.Helpers
 {
     public static class InputHelper
     {
-        // Metodos generales
         public static int LeerEntero(string mensaje)
         {
             int valor;
             Console.Write(mensaje);
             while (!int.TryParse(Console.ReadLine(), out valor))
             {
-                MostrarError("\nIngrese un número entero válido: \n");
+                MostrarError("Ingrese un número entero válido: ");
             }
-            return valor;
-        }
-
-        public static int LeerEnteroNoNegativo(string mensaje)
-        {
-            int valor;
-            do
-            {
-                Console.Write(mensaje);
-                if (!int.TryParse(Console.ReadLine(), out valor) || valor < 0)
-                {
-                    MostrarError("\nIngrese un número entero que sea 0 o mayor.\n");
-                }
-            } while (valor < 0);
-
             return valor;
         }
 
@@ -53,14 +37,15 @@ namespace NeoShoping.Helpers
                 texto = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(texto))
                 {
-                    MostrarError("\nEl campo no puede estar vacío. Intente de nuevo: \n");
+                    MostrarError("El campo no puede estar vacío. Intente de nuevo: ");
                 }
                 else if (texto.Length > maxLength)
                 {
-                    MostrarError($"\nMáximo {maxLength} caracteres. Intente de nuevo: \n");
+                    MostrarError($"Máximo {maxLength} caracteres. Intente de nuevo: ");
                     texto = string.Empty;
                 }
             } while (string.IsNullOrWhiteSpace(texto));
+
             return texto.Trim();
         }
 
@@ -127,110 +112,25 @@ namespace NeoShoping.Helpers
             Console.ResetColor();
         }
 
-        // Metodos para Producto
-        public static void LeerYActualizarDatosProducto(Producto producto)
-        {
-            Console.WriteLine("Ingrese los nuevos datos (deje vacío para mantener el valor actual):\n");
-
-            string nuevoNombre = LeerTextoOpcional("Nuevo nombre: ", producto.Nombre);
-            string nuevaDescripcion = LeerTextoOpcional("Nueva descripción: ", producto.Descripcion);
-            decimal nuevoPrecio = LeerDecimalOpcional("Nuevo precio: ", producto.Precio);
-            int nuevoStock = LeerEnteroOpcional("Nuevo stock: ", producto.Stock);
-            int nuevoIdProveedor = LeerEnteroOpcional("Nuevo ID Proveedor: ", producto.IdProveedor);
-
-            producto.Nombre = nuevoNombre;
-            producto.Descripcion = nuevaDescripcion;
-            producto.Precio = nuevoPrecio;
-            producto.Stock = nuevoStock;
-            producto.IdProveedor = nuevoIdProveedor;
-        }
-
-        // Metodo para Proveedor
-        public static void LeerYActualizarDatosProveedor(Proveedor proveedor)
-        {
-            Console.WriteLine("\nIngrese los nuevos datos (deje vacío para mantener el valor actual):\n");
-
-            string nuevoNombre = LeerTextoOpcional("Nuevo nombre: ", proveedor.Nombre);
-            string nuevoTelefono = LeerTelefonoOpcional("Nuevo teléfono (formato 000-000-0000): ", proveedor.Telefono);
-            string nuevoEmail = LeerEmailOpcional("Nuevo email: ", proveedor.Email);
-            string nuevaDireccion = LeerTextoOpcional("Nueva dirección: ", proveedor.Direccion);
-            string nuevoRNC = LeerTextoOpcional("Nuevo RNC: ", proveedor.RNC);
-
-            proveedor.Nombre = nuevoNombre;
-            proveedor.Telefono = nuevoTelefono;
-            proveedor.Email = nuevoEmail;
-            proveedor.Direccion = nuevaDireccion;
-            proveedor.RNC = nuevoRNC;
-        }
-
-        // Metodos para Orden
         public static DateTime LeerFecha(string mensaje)
         {
             DateTime fecha;
             Console.Write(mensaje);
             while (!DateTime.TryParse(Console.ReadLine(), out fecha))
             {
-                ValidacionesHelper.MostrarError("Fecha inválida. Formato esperado: yyyy-mm-dd");
-            }
-            return fecha;
-        }
-
-        public static int LeerEnteroOrden(string mensaje)
-        {
-            int valor;
-            Console.Write(mensaje);
-            while (!int.TryParse(Console.ReadLine(), out valor))
-            {
-                ValidacionesHelper.MostrarError("Ingrese un número entero: ");
-            }
-            return valor;
-        }
-
-        public static decimal LeerDecimalOrden(string mensaje)
-        {
-            decimal valor;
-            Console.Write(mensaje);
-            while (!decimal.TryParse(Console.ReadLine(), out valor))
-            {
-                ValidacionesHelper.MostrarError("Entrada inválida. Intente de nuevo: ");
-            }
-            return valor;
-        }
-
-        public static string LeerTextoNoVacioOrden(string mensaje)
-        {
-            string texto;
-            Console.Write(mensaje);
-            do
-            {
-                texto = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(texto))
-                {
-                    ValidacionesHelper.MostrarError("El campo no puede estar vacío. Intente de nuevo: ");
-                }
-            } while (string.IsNullOrWhiteSpace(texto));
-            return texto.Trim();
-        }
-
-        public static DateTime LeerFechaOrden(string mensaje)
-        {
-            DateTime fecha;
-            Console.Write(mensaje);
-            while (!DateTime.TryParse(Console.ReadLine(), out fecha))
-            {
-                ValidacionesHelper.MostrarError("Fecha inválida. Formato esperado: yyyy-mm-dd");
+                MostrarError("Fecha inválida. Formato esperado: yyyy-mm-dd. Intente de nuevo: ");
             }
             return fecha;
         }
 
         public static void LeerYActualizarDatosOrden(Orden orden)
         {
-            Console.WriteLine("Ingrese los nuevos datos (deje vacío para mantener el valor actual):\n");
+            Console.WriteLine("\nIngrese los nuevos datos de la orden (deje vacío para mantener el valor actual):\n");
 
-            int nuevoIdCliente = LeerEnteroOrden("Nuevo ID Cliente: ");
-            DateTime nuevaFecha = LeerFechaOrden("Nueva fecha (yyyy-mm-dd): ");
-            decimal nuevoTotal = LeerDecimalOrden("Nuevo total: ");
-            string nuevoEstado = LeerTextoNoVacioOrden("Nuevo estado: ");
+            int nuevoIdCliente = LeerEnteroOpcional("Nuevo ID Cliente: ", orden.IdCliente);
+            DateTime nuevaFecha = LeerFechaOpcional("\nNueva fecha (yyyy-mm-dd): ", orden.FechaOrden);
+            decimal nuevoTotal = LeerDecimalOpcional("\nNuevo total: ", orden.Total);
+            string nuevoEstado = LeerTextoOpcional("\nNuevo estado: ", orden.Estado);
 
             orden.IdCliente = nuevoIdCliente;
             orden.FechaOrden = nuevaFecha;
@@ -238,13 +138,12 @@ namespace NeoShoping.Helpers
             orden.Estado = nuevoEstado;
         }
 
-        // Metodo para Entrega
         public static void LeerYActualizarDatosEntrega(Entrega entrega)
         {
             Console.WriteLine("\nIngrese los nuevos datos de la entrega (deje vacío para mantener el valor actual):\n");
 
             int nuevoIdOrden = LeerEnteroOpcional("Nuevo ID de Orden: ", entrega.IdOrden);
-            DateTime nuevaFechaEntrega = LeerFechaOpcional("Nueva Fecha de Entrega (yyyy-mm-dd): ", entrega.FechaEntrega);
+            DateTime nuevaFechaEntrega = LeerFechaOpcional("\nNueva Fecha de Entrega (yyyy-mm-dd): ", entrega.FechaEntrega);
             string nuevoRecibidoPor = LeerTextoOpcional("Nuevo nombre de quien recibió: ", entrega.RecibidoPor, 50);
             string nuevasObservaciones = LeerTextoOpcional("Nuevas observaciones: ", entrega.Observaciones, 250);
 
@@ -254,16 +153,15 @@ namespace NeoShoping.Helpers
             entrega.Observaciones = nuevasObservaciones;
         }
 
-        // Metodo DetalleOrden
         public static void LeerYActualizarDatosDetalleOrden(DetalleOrden detalle)
         {
             Console.WriteLine("\nIngrese los nuevos datos del detalle de orden (deje vacío para mantener el valor actual):\n");
 
             int nuevoIdOrden = LeerEnteroOpcional("Nuevo ID de Orden: ", detalle.IdOrden);
-            int nuevoIdProducto = LeerEnteroOpcional("Nuevo ID de Producto: ", detalle.IdProducto);
-            int nuevaCantidad = LeerEnteroOpcional("Nueva cantidad: ", detalle.Cantidad);
-            decimal nuevoPrecioUnitario = LeerDecimalOpcional("Nuevo precio unitario: ", detalle.PrecioUnitario);
-            decimal nuevoSubtotal = LeerDecimalOpcional("Nuevo subtotal: ", detalle.Subtotal);
+            int nuevoIdProducto = LeerEnteroOpcional("\nNuevo ID de Producto: ", detalle.IdProducto);
+            int nuevaCantidad = LeerEnteroOpcional("\nNueva cantidad: ", detalle.Cantidad);
+            decimal nuevoPrecioUnitario = LeerDecimalOpcional("\nNuevo precio unitario: ", detalle.PrecioUnitario);
+            decimal nuevoSubtotal = LeerDecimalOpcional("\nNuevo subtotal: ", detalle.Subtotal);
 
             detalle.IdOrden = nuevoIdOrden;
             detalle.IdProducto = nuevoIdProducto;
@@ -271,22 +169,55 @@ namespace NeoShoping.Helpers
             detalle.PrecioUnitario = nuevoPrecioUnitario;
         }
 
-        // Metodo para Cliente
+        public static void LeerYActualizarDatosProveedor(Proveedor proveedor)
+        {
+            Console.WriteLine("\nIngrese los nuevos datos del proveedor (deje vacío para mantener el valor actual):\n");
+
+            string nuevoNombre = LeerTextoOpcional("Nuevo nombre: ", proveedor.Nombre);
+            string nuevoTelefono = LeerTelefonoOpcional("\nNuevo teléfono (formato 000-000-0000): ", proveedor.Telefono);
+            string nuevoEmail = LeerEmailOpcional("\nNuevo email: ", proveedor.Email);
+            string nuevaDireccion = LeerTextoOpcional("\nNueva dirección: ", proveedor.Direccion);
+            string nuevoRNC = LeerTextoOpcional("\nNuevo RNC: ", proveedor.RNC);
+
+            proveedor.Nombre = nuevoNombre;
+            proveedor.Telefono = nuevoTelefono;
+            proveedor.Email = nuevoEmail;
+            proveedor.Direccion = nuevaDireccion;
+            proveedor.RNC = nuevoRNC;
+        }
+
         public static void LeerYActualizarDatosCliente(Cliente cliente)
         {
             Console.WriteLine("\nIngrese los nuevos datos del cliente (deje vacío para mantener el valor actual):\n");
 
             string nuevoNombre = LeerTextoOpcional("Nuevo nombre: ", cliente.Nombre, 50);
-            string nuevoApellido = LeerTextoOpcional("Nuevo apellido: ", cliente.Apellido, 100);
-            string nuevoTelefono = LeerTelefonoOpcional("Nuevo teléfono (formato 000-000-0000): ", cliente.Telefono);
-            string nuevoEmail = LeerEmailOpcional("Nuevo email: ", cliente.Email);
-            string nuevaDireccion = LeerTextoOpcional("Nueva dirección: ", cliente.Direccion, 200);
+            string nuevoApellido = LeerTextoOpcional("\nNuevo apellido: ", cliente.Apellido, 100);
+            string nuevoTelefono = LeerTelefonoOpcional("\nNuevo teléfono (formato 000-000-0000): ", cliente.Telefono);
+            string nuevoEmail = LeerEmailOpcional("\nNuevo email: ", cliente.Email);
+            string nuevaDireccion = LeerTextoOpcional("\nNueva dirección: ", cliente.Direccion, 200);
 
             cliente.Nombre = nuevoNombre;
             cliente.Apellido = nuevoApellido;
             cliente.Telefono = nuevoTelefono;
             cliente.Email = nuevoEmail;
             cliente.Direccion = nuevaDireccion;
+        }
+
+        public static void LeerYActualizarDatosProducto(Producto producto)
+        {
+            Console.WriteLine("Ingrese los nuevos datos del producto (deje vacío para mantener el valor actual):\n");
+
+            string nuevoNombre = LeerTextoOpcional("Nuevo nombre: ", producto.Nombre);
+            string nuevaDescripcion = LeerTextoOpcional("\nNueva descripción: ", producto.Descripcion);
+            decimal nuevoPrecio = LeerDecimalOpcional("\nNuevo precio: ", producto.Precio);
+            int nuevoStock = LeerEnteroOpcional("\nNuevo stock: ", producto.Stock);
+            int nuevoIdProveedor = LeerEnteroOpcional("\nNuevo ID Proveedor: ", producto.IdProveedor);
+
+            producto.Nombre = nuevoNombre;
+            producto.Descripcion = nuevaDescripcion;
+            producto.Precio = nuevoPrecio;
+            producto.Stock = nuevoStock;
+            producto.IdProveedor = nuevoIdProveedor;
         }
 
     }

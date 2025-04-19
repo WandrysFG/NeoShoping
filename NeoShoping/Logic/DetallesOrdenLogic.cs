@@ -23,7 +23,7 @@ namespace NeoShoping.Logic
                 GuardarDetalleEnBaseDeDatos(nuevoDetalle);
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\nDetalle de orden agregado correctamente.\n");
+                Console.WriteLine("\nDetalle de orden agregado correctamente.");
                 Console.ResetColor();
             }
             catch (DbUpdateException ex)
@@ -34,7 +34,8 @@ namespace NeoShoping.Logic
             {
                 Console.WriteLine($"Error inesperado: {ex}");
             }
-            InicioUI.Pausa();
+
+            FrmDetalleOrden.MenuDeSalida();
         }
 
         private static void GuardarDetalleEnBaseDeDatos(DetalleOrden nuevoDetalle)
@@ -65,7 +66,11 @@ namespace NeoShoping.Logic
                         int option;
                         while (!int.TryParse(Console.ReadLine(), out option))
                         {
-                            Console.Write("Entrada inválida. Debes ingresar un número.\nSeleccione una opción: ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Entrada inválida. Debes ingresar un número.\n");
+                            Console.ResetColor();
+
+                            Console.Write("Seleccione una opción: ");
                         }
 
                         switch (option)
@@ -87,8 +92,9 @@ namespace NeoShoping.Logic
                                 break;
 
                             default:
-                                Console.WriteLine("Opción no válida. Intente nuevamente.");
-                                InicioUI.Pausa();
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Opción no válida. Intente nuevamente.\n");
+                                Console.ResetColor();
                                 break;
                         }
                     }
@@ -150,7 +156,7 @@ namespace NeoShoping.Logic
             if (detalle == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nDetalle de orden no encontrado. Verifique que el ID sea correcto.\n");
+                Console.WriteLine("\nDetalle de orden no encontrado. Verifique que el ID sea correcto.");
                 Console.ResetColor();
                 FrmDetalleOrden.MenuDeSalida();
             }
@@ -229,7 +235,9 @@ namespace NeoShoping.Logic
                 else if (confirmacion == "n")
                     return false;
                 else
-                    Console.WriteLine("Por favor, ingrese una opción válida: 's' para continuar o 'n' para cancelar.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
+                    Console.ResetColor();
             }
         }
 
@@ -265,7 +273,7 @@ namespace NeoShoping.Logic
             }
             else
             {
-                Console.WriteLine("No hay detalles de orden registrados.\n");
+                Console.WriteLine("No hay detalles de orden registrados.");
             }
         }
 
@@ -281,10 +289,10 @@ namespace NeoShoping.Logic
 
             if (detalle != null)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nDetalle de orden encontrado:\n");
-                Console.WriteLine(detalle.MostrarInformacion());
                 Console.ResetColor();
+                Console.WriteLine(detalle.MostrarInformacion());
             }
             else
             {

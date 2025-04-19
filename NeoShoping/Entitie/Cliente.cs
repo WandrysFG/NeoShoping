@@ -9,23 +9,23 @@ namespace NeoShoping.Entities
         public override int IdCliente { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "El nombre no puede tener más de 50 caracteres.")]
+        [StringLength(50)]
         public override string Nombre { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "El apellido no puede tener más de 100 caracteres.")]
+        [StringLength(100)]
         public override string Apellido { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "El teléfono no puede tener más de 20 caracteres.")]
+        [StringLength(20)]
         public override string Telefono { get; set; }
 
-        [StringLength(100, ErrorMessage = "El email no puede tener más de 100 caracteres.")]
-        [EmailAddress(ErrorMessage = "El email no tiene un formato válido.")]
+        [StringLength(100)]
+        [EmailAddress]
         public override string Email { get; set; }
 
         [Required]
-        [StringLength(200, ErrorMessage = "La dirección no puede tener más de 200 caracteres.")]
+        [StringLength(200)]
         public override string Direccion { get; set; }
 
         public Cliente(string nombre, string apellido, string telefono, string email, string direccion)
@@ -39,7 +39,7 @@ namespace NeoShoping.Entities
 
         public override string MostrarInformacion()
         {
-            return $"ID Cliente: {IdCliente} ║ Nombre: {Nombre} {Apellido} ║ Teléfono: {Telefono} ║ Email: {Email} ║ Dirección: {Direccion}\n";
+            return $"ID Cliente: {IdCliente} ║ Nombre: {Nombre} {Apellido} ║ Teléfono: {Telefono} ║ Email: {Email} ║ Dirección: {Direccion}";
         }
     }
 }

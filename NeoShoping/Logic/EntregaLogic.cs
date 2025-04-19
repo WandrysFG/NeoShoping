@@ -23,7 +23,7 @@ namespace NeoShoping.Logic
                 GuardarEntregaEnBaseDeDatos(nuevaEntrega);
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\nEntrega agregada correctamente.\n");
+                Console.WriteLine("\nEntrega agregada correctamente.");
                 Console.ResetColor();
             }
             catch (DbUpdateException ex)
@@ -34,7 +34,8 @@ namespace NeoShoping.Logic
             {
                 Console.WriteLine($"Error inesperado: {ex}");
             }
-            InicioUI.Pausa();
+
+            FrmEntregas.MenuDeSalida();
         }
 
         private static void GuardarEntregaEnBaseDeDatos(Entrega nuevaEntrega)
@@ -65,7 +66,10 @@ namespace NeoShoping.Logic
                         int option;
                         while (!int.TryParse(Console.ReadLine(), out option))
                         {
-                            Console.Write("Entrada inválida. Debes ingresar un número.\n");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Entrada inválida. Debes ingresar un número.\n");
+                            Console.ResetColor();
+                            
                             Console.Write("Seleccione una opción: ");
                         }
 
@@ -88,8 +92,9 @@ namespace NeoShoping.Logic
                                 break;
 
                             default:
-                                Console.WriteLine("Opción no válida. Intente nuevamente.");
-                                InicioUI.Pausa();
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Opción no válida. Intente nuevamente.\n");
+                                Console.ResetColor();
                                 break;
                         }
 
@@ -152,7 +157,7 @@ namespace NeoShoping.Logic
             if (entrega == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nEntrega no encontrada. Verifique que el ID sea correcto.\n");
+                Console.WriteLine("\nEntrega no encontrada. Verifique que el ID sea correcto.");
                 Console.ResetColor();
                 FrmEntregas.MenuDeSalida();
             }
@@ -231,7 +236,9 @@ namespace NeoShoping.Logic
                 else if (confirmacion == "n")
                     return false;
                 else
-                    Console.WriteLine("Por favor, ingrese una opción válida: 's' para continuar o 'n' para cancelar.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
+                    Console.ResetColor();
             }
         }
 
@@ -283,10 +290,10 @@ namespace NeoShoping.Logic
 
             if (entrega != null)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nEntrega encontrada:\n");
-                Console.WriteLine(entrega.MostrarInformacion());
                 Console.ResetColor();
+                Console.WriteLine(entrega.MostrarInformacion());
             }
             else
             {
