@@ -46,7 +46,9 @@ namespace NeoShoping.Presentation
                 if (!int.TryParse(input, out option))
                 {
                     intentosInvalidos++;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Entrada inválida. Debes ingresar un número.\n");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -56,21 +58,25 @@ namespace NeoShoping.Presentation
                         {
                             case 1:
                                 Console.Clear();
-                                FrmProductos.GestionarProductos();
+                                FrmClientes.GestionarClientes();
                                 break;
                             case 2:
                                 Console.Clear();
-                                FrmProveedores.GestionarProveedores();
+                                FrmProductos.GestionarProductos();
                                 break;
                             case 3:
                                 Console.Clear();
-                                //ordenes de compras
+                                FrmProveedores.GestionarProveedores();
                                 break;
                             case 4:
                                 Console.Clear();
-                                //gestionar entregas
+                                FrmOrdenes.GestionarOrdenes();
                                 break;
                             case 5:
+                                Console.Clear();
+                                FrmEntregas.GestionarEntregas();
+                                break;
+                            case 6:
                                 Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.WriteLine("\nGracias por usar NeoShoping. ¡Hasta luego!");
                                 Console.ResetColor();
@@ -78,7 +84,9 @@ namespace NeoShoping.Presentation
                                 break;
                             default:
                                 intentosInvalidos++;
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Opción inválida. Intente nuevamente.\n");
+                                Console.ResetColor();
                                 break;
                         }
 
@@ -91,7 +99,7 @@ namespace NeoShoping.Presentation
                     catch (Exception ex)
                     {
                         Console.WriteLine($"\nError: {ex.Message}");
-                        FrmProductos.Pausa();
+                        Pausa();
                     }
                 }
             }
@@ -102,11 +110,12 @@ namespace NeoShoping.Presentation
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔═══════════ MENU INICIO ═══════════╗");
             Console.WriteLine("║                                   ║");
-            Console.WriteLine("║ 1- Gestionar Productos            ║");
-            Console.WriteLine("║ 2- Gestionar Proveedores          ║");
-            Console.WriteLine("║ 3- Gestionar Ordenes de Compras   ║");
-            Console.WriteLine("║ 4- Gestionar Entregas             ║");
-            Console.WriteLine("║ 5- Salir                          ║");
+            Console.WriteLine("║ 1- Gestionar Clientes             ║");
+            Console.WriteLine("║ 2- Gestionar Ordenes              ║");
+            Console.WriteLine("║ 3- Gestionar Entregas             ║");
+            Console.WriteLine("║ 4- Gestionar Productos            ║");
+            Console.WriteLine("║ 5- Gestionar Proveedores          ║");
+            Console.WriteLine("║ 6- Salir                          ║");
             Console.WriteLine("║                                   ║");
             Console.WriteLine("╚═══════════════════════════════════╝\n");
             Console.ResetColor();
@@ -116,17 +125,25 @@ namespace NeoShoping.Presentation
         {
             if (estilo == "simple")
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("\n╔══════════ OPCIONES VALIDAS ══════════╗");
-                Console.WriteLine("║                                   ║");
-                Console.WriteLine("║ 1- Gestionar Productos               ║");
-                Console.WriteLine("║ 2- Gestionar Proveedores             ║");
-                Console.WriteLine("║ 3- Gestionar Ordenes de Compras      ║");
-                Console.WriteLine("║ 4- Gestionar Entregas                ║");
+                Console.WriteLine("║                                      ║");
+                Console.WriteLine("║ 1- Gestionar Clientes                ║");
+                Console.WriteLine("║ 2- Gestionar Ordenes                 ║");
+                Console.WriteLine("║ 3- Gestionar Entregas                ║");
+                Console.WriteLine("║ 4- Gestionar Productos               ║");
+                Console.WriteLine("║ 4- Gestionar Proveedores             ║");
                 Console.WriteLine("║ 5- Salir                             ║");
+                Console.WriteLine("║                                      ║");
                 Console.WriteLine("╚══════════════════════════════════════╝\n");
                 Console.ResetColor();
             }
+        }
+        public static void Pausa()
+        {
+            Console.Write("\nPresione una tecla para continuar...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

@@ -6,17 +6,17 @@ using NeoShoping.Logic;
 
 namespace NeoShoping.Presentation
 {
-    public class FrmProveedores
+    public class FrmDetalleOrden
     {
-        public static void GestionarProveedores()
+        public static void GestionarDetalleOrden()
         {
             var context = new NeoShopingDataContext();
-            List<Proveedor> proveedores = context.Proveedores.ToList();
+            List<DetalleOrden> detallesOrden = context.DetallesOrden.ToList();
 
             bool back = false;
             int intentos = 0;
 
-            MenuGestionarProveedores();
+            MenuGestionarDetalleOrden();
 
             while (!back)
             {
@@ -38,19 +38,19 @@ namespace NeoShoping.Presentation
                         {
                             case 1:
                                 Console.Clear();
-                                ProveedorLogic.AgregarProveedor();
+                                DetallesOrdenLogic.AgregarDetalleOrden();
                                 break;
                             case 2:
                                 Console.Clear();
-                                ProveedorLogic.VerOBuscarProveedores();
+                                DetallesOrdenLogic.VerOBuscarDetallesOrden();
                                 break;
                             case 3:
                                 Console.Clear();
-                                ProveedorLogic.EditarProveedor();
+                                DetallesOrdenLogic.EditarDetalleOrden();
                                 break;
                             case 4:
                                 Console.Clear();
-                                ProveedorLogic.EliminarProveedor();
+                                DetallesOrdenLogic.EliminarDetalleOrden();
                                 break;
                             case 5:
                                 back = true;
@@ -66,7 +66,7 @@ namespace NeoShoping.Presentation
 
                         if (intentos >= 3)
                         {
-                            MenuGestionarProveedores("simple");
+                            MenuGestionarDetalleOrden("simple");
                             intentos = 0;
                         }
                     }
@@ -83,51 +83,50 @@ namespace NeoShoping.Presentation
             }
         }
 
-        public static void MenuGestionarProveedores()
+        public static void MenuGestionarDetalleOrden()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("╔═══════ GESTIONAR PROVEEDORES ═══════╗");
-            Console.WriteLine("║                                     ║");
-            Console.WriteLine("║ 1- Agregar Proveedor                ║");
-            Console.WriteLine("║ 2- Ver/Buscar Proveedores           ║");
-            Console.WriteLine("║ 3- Editar Proveedor                 ║");
-            Console.WriteLine("║ 4- Eliminar Proveedor               ║");
-            Console.WriteLine("║ 5- Volver al Menu Principal         ║");
-            Console.WriteLine("║                                     ║");
-            Console.WriteLine("╚═════════════════════════════════════╝\n");
+            Console.WriteLine("╔═══════ GESTIONAR DETALLE ORDEN ═══════╗");
+            Console.WriteLine("║                                       ║");
+            Console.WriteLine("║ 1- Agregar Detalle de Orden           ║");
+            Console.WriteLine("║ 2- Ver/Buscar Detalle de Orden        ║");
+            Console.WriteLine("║ 3- Editar Detalle de Orden            ║");
+            Console.WriteLine("║ 4- Eliminar Detalle de Orden          ║");
+            Console.WriteLine("║ 5- Volver al Menu Principal           ║");
+            Console.WriteLine("║                                       ║");
+            Console.WriteLine("╚═══════════════════════════════════════╝\n");
             Console.ResetColor();
         }
 
-        public static void MenuGestionarProveedores(string estilo)
+        public static void MenuGestionarDetalleOrden(string estilo)
         {
             if (estilo == "simple")
             {
-
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n╔══════════ OPCIONES VALIDAS ══════════╗");
                 Console.WriteLine("║                                      ║");
-                Console.WriteLine("║ 1- Agregar Proveedor                 ║");
-                Console.WriteLine("║ 2- Ver/Buscar Proveedores            ║");
-                Console.WriteLine("║ 3- Editar Proveedor                  ║");
-                Console.WriteLine("║ 4- Eliminar Proveedor                ║");
-                Console.WriteLine("║ 5- Volver al Menu Principal          ║");
+                Console.WriteLine("║ 1- Agregar Detalle de Orden           ║");
+                Console.WriteLine("║ 2- Ver/Buscar Detalle de Orden        ║");
+                Console.WriteLine("║ 3- Editar Detalle de Orden            ║");
+                Console.WriteLine("║ 4- Eliminar Detalle de Orden          ║");
+                Console.WriteLine("║ 5- Volver al Menu Principal           ║");
                 Console.WriteLine("║                                      ║");
                 Console.WriteLine("╚══════════════════════════════════════╝\n");
                 Console.ResetColor();
             }
         }
 
-        public static void MenuVerOBuscarProveedores()
+        public static void MenuVerOBuscarDetalleOrden()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("╔═══════ VER/BUSCAR PROVEEDORES ═══════╗");
-            Console.WriteLine("║                                      ║");
-            Console.WriteLine("║ 1- Ver Todos los Proveedores         ║");
-            Console.WriteLine("║ 2- Buscar Proveedor                  ║");
-            Console.WriteLine("║ 3- Volver al Menu Anterior           ║");
-            Console.WriteLine("║                                      ║");
-            Console.WriteLine("╚══════════════════════════════════════╝\n");
+            Console.WriteLine("╔═══════ VER/BUSCAR DETALLE ORDEN ═══════╗");
+            Console.WriteLine("║                                       ║");
+            Console.WriteLine("║ 1- Ver Todos los Detalles de Orden    ║");
+            Console.WriteLine("║ 2- Buscar Detalle de Orden            ║");
+            Console.WriteLine("║ 3- Volver al Menu Anterior            ║");
+            Console.WriteLine("║                                       ║");
+            Console.WriteLine("╚═══════════════════════════════════════╝\n");
             Console.ResetColor();
         }
 
@@ -152,7 +151,7 @@ namespace NeoShoping.Presentation
                     case "1":
                         opcionValida = true;
                         Console.Clear();
-                        GestionarProveedores();
+                        GestionarDetalleOrden();
                         break;
                     case "2":
                         opcionValida = true;

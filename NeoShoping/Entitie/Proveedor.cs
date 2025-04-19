@@ -43,7 +43,7 @@ namespace NeoShoping.Entities
 
         public override string MostrarInformacion()
         {
-            return $"ID: {IdProveedor} | Nombre: {Nombre} | Teléfono: {Telefono} | Email: {Email} | Dirección: {Direccion} | RNC: {RNC}";
+            return $"ID: {IdProveedor} ║ Nombre: {Nombre} ║ Teléfono: {Telefono} ║ Email: {Email} ║ Dirección: {Direccion} ║ RNC: {RNC}\n";
         }
     }
 }

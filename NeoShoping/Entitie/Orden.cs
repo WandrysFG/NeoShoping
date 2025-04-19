@@ -8,31 +8,52 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NeoShoping.Entities
 {
-    public class Orden
+    public class Orden : OrdenBase
     {
         [Key]
-        public int IdOrden { get; set; }
+        public override int IdOrden { get; set; }
 
         [Required]
-        public DateTime FechaOrden { get; set; }
+        public override DateTime FechaOrden { get; set; }
 
         [Required]
-        public decimal Total { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "El total no puede ser negativo.")]
+        public override decimal Total { get; set; }
+
+        [Required, MaxLength(50)]
+        public override string Estado { get; set; }
 
         [Required]
-        public string Estado { get; set; } = "Pendiente";
-
         public int IdProveedor { get; set; }
 
         [ForeignKey("IdProveedor")]
-        public Proveedor oProveedor { get; set; }
+        public virtual Proveedor Proveedor { get; set; }
 
+        [Required]
         public int IdCliente { get; set; }
 
         [ForeignKey("IdCliente")]
-        public Cliente oCliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+        public Orden(int idCliente, int idProveedor, DateTime fechaOrden, decimal total, string estado)
+            : base(fechaOrden, total, estado)
+        {
+            IdCliente = idCliente;
+            IdProveedor = idProveedor;
+            Estado = estado;
+        }
 
 
-        public List<DetalleOrden> oDetalleOrden { get; set; } = new List<DetalleOrden>();
+        public Orden() : base(DateTime.Now, 0, "Pendiente")
+        {
+            Estado = "Pendiente";
+            Proveedor = new Proveedor();
+            Cliente = new Cliente();
+        }
+
+        public override string MostrarInformacion()
+        {
+            return $"ID: {IdOrden} ║ Fecha: {FechaOrden:dd/MM/yyyy} ║ Total: {Total:C} ║ Estado: {Estado} ║ Proveedor: {IdProveedor} ║ Cliente: {IdCliente}\n";
+        }
     }
 }

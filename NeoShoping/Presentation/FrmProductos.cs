@@ -167,12 +167,5 @@ namespace NeoShoping.Presentation
                 }
             }
         }
-
-        public static void Pausa()
-        {
-            Console.Write("\nPresione una tecla para continuar...");
-            Console.ReadKey();
-            Console.Clear();
-        }
     }
 }

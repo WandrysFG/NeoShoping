@@ -41,7 +41,7 @@ namespace NeoShoping.Entities
         }
         public override string MostrarInformacion()
         {
-            return $"ID: {IdProducto} | Nombre: {Nombre} | Precio: {Precio:C} | Stock: {Stock} | Descripción: {Descripcion} | Proveedor: {IdProveedor}";
+            return $"ID: {IdProducto} ║ Nombre: {Nombre} ║ Precio: {Precio:C} ║ Stock: {Stock} ║ Descripción: {Descripcion} ║ Proveedor: {IdProveedor}\n";
         }
     }
 }
