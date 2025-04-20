@@ -262,7 +262,7 @@ namespace NeoShopping.Logic
             if (ordenes.Any())
             {
                 Console.WriteLine($"{"ID",-5}  {"Fecha",-30} {"Estado",-15} {"ID Cliente",-15} {"Total",-10}");
-                Console.WriteLine(new string('─', 75));
+                Console.WriteLine(new string('─', 100));
 
                 foreach (var o in ordenes)
                 {

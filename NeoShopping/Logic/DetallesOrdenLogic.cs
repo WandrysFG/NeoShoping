@@ -236,8 +236,8 @@ namespace NeoShopping.Logic
                     return false;
                 else
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
-                    Console.ResetColor();
+                Console.WriteLine("Por favor, ingrese una opcion valida: 's' para continuar o 'n' para cancelar.");
+                Console.ResetColor();
             }
         }
 

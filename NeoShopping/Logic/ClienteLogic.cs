@@ -263,12 +263,12 @@ namespace NeoShopping.Logic
 
             if (clientes.Any())
             {
-                Console.WriteLine($"{"ID",-5}  {"Nombre",-25} {"Apellido",-25} {"Telefono",-20}  {"Email",-30}  {"Direccion",-30}");
+                Console.WriteLine($"{"ID",-5}  {"Nombre",-15} {"Apellido",-15} {"Telefono",-20}  {"Email",-30}  {"Direccion",-30}");
                 Console.WriteLine(new string('─', 130));
 
                 foreach (var c in clientes)
                 {
-                    Console.WriteLine($"{c.IdCliente,-5}  {c.Nombre,-25} {c.Apellido,-25} {c.Telefono,-20} {c.Email,-30} {c.Direccion,-30}");
+                    Console.WriteLine($"{c.IdCliente,-5}  {c.Nombre,-15} {c.Apellido,-15} {c.Telefono,-20} {c.Email,-30} {c.Direccion,-30}");
                 }
 
                 Console.WriteLine("");

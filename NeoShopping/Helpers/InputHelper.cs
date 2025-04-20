@@ -21,12 +21,26 @@ namespace NeoShopping.Helpers
         {
             decimal valor;
             Console.Write(mensaje);
-            while (!decimal.TryParse(Console.ReadLine(), out valor))
+            while (!decimal.TryParse(Console.ReadLine(), out valor) || valor < 0)
             {
-                MostrarError("\nEntrada inválida. Intente de nuevo: \n");
+                MostrarError("\nEntrada inválida. Ingrese un número decimal positivo: ");
             }
             return valor;
         }
+
+        public static decimal LeerDecimalOpcional(string mensaje, decimal valorActual)
+        {
+            Console.Write(mensaje);
+            string entrada = Console.ReadLine();
+            if (decimal.TryParse(entrada, out decimal resultado) && resultado >= 0)
+                return resultado;
+
+            if (!string.IsNullOrWhiteSpace(entrada))
+                MostrarError("Entrada inválida. Se mantiene el valor anterior.\n");
+
+            return valorActual;
+        }
+
 
         public static string LeerTextoNoVacio(string mensaje, int maxLength = int.MaxValue)
         {
@@ -61,15 +75,6 @@ namespace NeoShopping.Helpers
             Console.Write(mensaje);
             string entrada = Console.ReadLine();
             return string.IsNullOrWhiteSpace(entrada) ? "" : entrada.Trim();
-        }
-
-        public static decimal LeerDecimalOpcional(string mensaje, decimal valorActual)
-        {
-            Console.Write(mensaje);
-            string entrada = Console.ReadLine();
-            if (decimal.TryParse(entrada, out decimal resultado) && resultado > 0)
-                return resultado;
-            return valorActual;
         }
 
         public static int LeerEnteroOpcional(string mensaje, int valorActual)
@@ -161,7 +166,7 @@ namespace NeoShopping.Helpers
             int nuevoIdProducto = LeerEnteroOpcional("\nNuevo ID de Producto: ", detalle.IdProducto);
             int nuevaCantidad = LeerEnteroOpcional("\nNueva cantidad: ", detalle.Cantidad);
             decimal nuevoPrecioUnitario = LeerDecimalOpcional("\nNuevo precio unitario: ", detalle.PrecioUnitario);
-            decimal nuevoSubtotal = LeerDecimalOpcional("\nNuevo subtotal: ", detalle.Subtotal);
+            //decimal nuevoSubtotal = LeerDecimalOpcional("\nNuevo subtotal: ", detalle.Subtotal);
 
             detalle.IdOrden = nuevoIdOrden;
             detalle.IdProducto = nuevoIdProducto;
