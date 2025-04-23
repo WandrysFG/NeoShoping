@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NeoShopping.Interfaces;
 
 namespace NeoShopping.Entities
 {
-    public class Proveedor : ProveedorBase
+    public class Proveedor : ProveedorBase, IProveedor
     {
         [Key]
         public override int IdProveedor { get; set; }
@@ -32,7 +33,7 @@ namespace NeoShopping.Entities
             RNC = rnc;
         }
 
-        public Proveedor() : base("Proveedor por defecto", "000-000-0000", "proveedor@email.com", "Dirección por defecto", "RNC000000")
+        public Proveedor() : base()
         {
             Nombre = "Proveedor por defecto";
             Telefono = "000-000-0000";

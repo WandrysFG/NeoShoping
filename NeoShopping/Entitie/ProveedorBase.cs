@@ -18,6 +18,9 @@
             RNC = rnc;
         }
 
+        protected ProveedorBase() { }
+
         public abstract string MostrarInformacion();
     }
 }
+

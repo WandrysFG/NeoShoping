@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NeoShopping.Interfaces;
 
 namespace NeoShopping.Entities
 {
-    public class Cliente : ClienteBase
+    public class Cliente : ClienteBase, ICliente
     {
         [Key]
         public override int IdCliente { get; set; }

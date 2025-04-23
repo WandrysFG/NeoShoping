@@ -20,6 +20,8 @@ namespace NeoShopping.Entities
             Estado = estado;
         }
 
+        public OrdenBase() { }
+
         public abstract string MostrarInformacion();
     }
 }

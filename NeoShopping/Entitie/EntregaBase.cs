@@ -6,13 +6,17 @@
         public virtual int IdOrden { get; set; }
         public virtual DateTime FechaEntrega { get; set; }
         public virtual string RecibidoPor { get; set; }
+        public virtual string Observaciones { get; set; }
 
-        public EntregaBase(int idOrden, DateTime fechaEntrega, string recibidoPor)
+        public EntregaBase(int idOrden, DateTime fechaEntrega, string recibidoPor, string observaciones = "")
         {
             IdOrden = idOrden;
             FechaEntrega = fechaEntrega;
-            RecibidoPor = recibidoPor;
+            RecibidoPor = recibidoPor ?? throw new ArgumentNullException(nameof(recibidoPor));
+            Observaciones = observaciones ?? string.Empty;
         }
+
+        public EntregaBase() { }
 
         public abstract string MostrarInformacion();
     }

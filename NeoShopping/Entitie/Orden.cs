@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NeoShopping.Interfaces;
 
 namespace NeoShopping.Entities
 {
-    public class Orden : OrdenBase
+    public class Orden : OrdenBase, IOrden
     {
         [Key]
         public override int IdOrden { get; set; }
@@ -40,12 +36,12 @@ namespace NeoShopping.Entities
         {
             IdCliente = idCliente;
             IdProveedor = idProveedor;
-            Estado = estado;
         }
 
-
-        public Orden() : base(DateTime.Now, 0, "Pendiente")
+        public Orden() : base()
         {
+            FechaOrden = DateTime.Now;
+            Total = 0;
             Estado = "Pendiente";
             Proveedor = new Proveedor();
             Cliente = new Cliente();

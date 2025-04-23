@@ -14,6 +14,8 @@
             Stock = stock;
         }
 
+        public ProductoBase() { }
+
         public abstract string MostrarInformacion();
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NeoShopping.Interfaces;
 
 namespace NeoShopping.Entities
 {
-    public class Producto : ProductoBase
+    public class Producto : ProductoBase, IProducto
     {
         [Key]
         public override int IdProducto { get; set; }
@@ -33,12 +34,15 @@ namespace NeoShopping.Entities
             Descripcion = descripcion ?? throw new ArgumentNullException(nameof(descripcion), "Descripción no puede ser nula.");
         }
 
-        public Producto() : base("Producto por defecto", 0, 0)
+        public Producto() : base()
         {
             Nombre = "Producto por defecto";
+            Precio = 0;
+            Stock = 0;
             Descripcion = "Descripción por defecto";
             Proveedor = new Proveedor();
         }
+
         public override string MostrarInformacion()
         {
             return $"ID: {IdProducto} ║ Nombre: {Nombre} ║ Precio: {Precio:C} ║ Stock: {Stock} ║ Descripción: {Descripcion} ║ Proveedor: {IdProveedor}";

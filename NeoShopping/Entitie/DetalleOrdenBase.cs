@@ -1,4 +1,5 @@
-﻿namespace NeoShopping.Entities
+﻿
+namespace NeoShopping.Entities
 {
     public abstract class DetalleOrdenBase
     {
@@ -8,6 +9,8 @@
         public virtual int Cantidad { get; set; }
         public virtual decimal PrecioUnitario { get; set; }
 
+        public virtual decimal Subtotal => Cantidad * PrecioUnitario;
+
         public DetalleOrdenBase(int idOrden, int idProducto, int cantidad, decimal precioUnitario)
         {
             IdOrden = idOrden;
@@ -15,6 +18,8 @@
             Cantidad = cantidad;
             PrecioUnitario = precioUnitario;
         }
+
+        public DetalleOrdenBase() { }
 
         public abstract string MostrarInformacion();
     }
