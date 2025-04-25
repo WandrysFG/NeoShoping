@@ -125,13 +125,13 @@ namespace NeoShopping.Presentation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("╔═══════ VER/BUSCAR PRODUCTOS ═══════╗");
-            Console.WriteLine("║                                    ║");
-            Console.WriteLine("║ 1- Ver Todos los Productos         ║");
-            Console.WriteLine("║ 2- Buscar Producto                 ║");
-            Console.WriteLine("║ 3- Volver atrás                    ║");
-            Console.WriteLine("║                                    ║");
-            Console.WriteLine("╚════════════════════════════════════╝\n");
+            Console.WriteLine("╔═══════ VER/BUSCAR ENTREGAS ═══════╗");
+            Console.WriteLine("║                                   ║");
+            Console.WriteLine("║ 1- Ver Todos los Entregas         ║");
+            Console.WriteLine("║ 2- Buscar Entregas                ║");
+            Console.WriteLine("║ 3- Volver atrás                   ║");
+            Console.WriteLine("║                                   ║");
+            Console.WriteLine("╚═══════════════════════════════════╝\n");
             Console.ResetColor();
         }
 
